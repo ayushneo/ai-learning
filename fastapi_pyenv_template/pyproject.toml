@@ -1,0 +1,51 @@
+[project]
+name = "fastapi-pyenv-template"
+version = "0.1.0"
+description = "Reusable FastAPI backend template: layered CRUD, async SQLAlchemy, Alembic, Docker, pyenv + pip-tools."
+authors = [{ name = "Ayush Sood" }]
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    # "standard" extra pulls in fastapi-cli (the `fastapi` command: `fastapi
+    # dev` / `fastapi run`), uvicorn[standard] (uvloop + httptools -- tip 1),
+    # httpx, and python-multipart. One extras flag instead of pinning each
+    # separately.
+    "fastapi[standard]>=0.115,<0.116",
+    "sqlalchemy[asyncio]>=2.0,<3.0",
+    "asyncpg>=0.29,<0.30",
+    "alembic>=1.13,<2.0",
+    "pydantic-settings>=2.5,<3.0",
+]
+
+# pip-tools compiles this file directly (no separate requirements.in) --
+# `pip-compile pyproject.toml -o requirements.txt` for prod,
+# `pip-compile pyproject.toml --extra dev -o requirements-dev.txt` for dev.
+# One source of truth for versions instead of pyproject.toml + requirements.in
+# duplicating each other.
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3,<9.0",
+    "anyio>=4.4,<5.0",   # tip 10: pytest.mark.anyio instead of pytest-asyncio
+    "aiosqlite>=0.20,<0.21", # in-memory DB for tests, see tests/conftest.py
+    "ruff>=0.6,<0.7",
+    "pip-tools>=7.4,<8.0",
+]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+# B008 (function call in argument default) fires on every `Depends(...)` --
+# that's FastAPI's own documented DI pattern, not a bug to fix.
+ignore = ["B008"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["app*"]

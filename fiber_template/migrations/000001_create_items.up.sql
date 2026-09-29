@@ -1,0 +1,8 @@
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+CREATE TABLE items (
+    id UUID PRIMARY KEY,
+    name VARCHAR(200) NOT NULL,
+    description VARCHAR(2000),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);

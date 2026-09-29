@@ -1,0 +1,6 @@
+fastapi
+httpx
+uvicorn
+# for react_agent, reused here for its tools/agent loop:
+anthropic
+wikipedia
