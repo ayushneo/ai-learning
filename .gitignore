@@ -4,3 +4,5 @@ __pycache__/
 .venv/
 checkpoint.pt
 .idea/
+/2026-09-13-personal-memory-vault.md
+/build-guide.md

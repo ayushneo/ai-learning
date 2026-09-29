@@ -1,16 +1,16 @@
 ---
 type: knowledge
-summary: Plan for pairing hands-on building with the AI papers reading project — four build options tied to papers already read, each with a full technical spec for self-implementation; not yet started.
-tags: [AI, agents, reading, planning]
-status: draft
+summary: Origin plan for pairing hands-on building with the AI papers reading — four build options tied to papers already read; superseded as the project scaffold by _overview.md, kept for the option rationale and the detailed nano-Transformer milestone plan.
+tags: [AI, agents, reading, planning, build]
+status: active
 owner: Ayush Sood
-updated: 2026-09-05
-related: "[_overview.md](_overview.md), [../fastapi-reading/_overview.md](../fastapi-reading/_overview.md)"
+updated: 2026-09-09
+related: "[_overview.md](_overview.md), [references.md](references.md), [../ai-papers-reading/_overview.md](../ai-papers-reading/_overview.md), [../fastapi-reading/_overview.md](../fastapi-reading/_overview.md)"
 ---
 
 # Build Guide — Pairing Building with the AI Papers Reading
 
-**Status: plan only.** Nothing here has been started, and no project has been scaffolded for it yet. This exists so the plan isn't lost — pick it back up when ready.
+**Status:** this was the original plan, written while it still lived inside `ai-papers-reading`. The project is now scaffolded — see [_overview.md](_overview.md) for how it actually operates (you drive; the specs are stuck-buttons). This file is kept for the *why each option matters* rationale and the detailed nano-Transformer milestone plan below.
 
 ## Why build at all
 
@@ -26,7 +26,7 @@ Reading tells you *what* these mechanisms are; building is what exposes the part
 ## Four concrete build options, easiest → hardest
 
 **1. Nano-Transformer from scratch (no framework)**
-Implement multi-head self-attention, positional encoding, and train a tiny char-level language model (Karpathy's "let's build GPT" territory). Pure NumPy or minimal PyTorch. Best return for the Attention reading — nothing cements "how attention actually works" like writing the matmuls yourself. Weekend-scale project.
+Implement multi-head self-attention, positional encoding, and train a tiny char-level language model (Karpathy's "let's build GPT" territory — see [references.md](references.md) for nn-zero-to-hero). Pure NumPy or minimal PyTorch. Best return for the Attention reading — nothing cements "how attention actually works" like writing the matmuls yourself. Weekend-scale project. No separate spec for this one by design — write your own approach first.
 
 **2. Hand-rolled ReAct agent, no LangChain/framework**
 Raw LLM API calls, a manual parsing loop for `Thought:`/`Action:`/`Observation:`, 2–3 real tools (calculator, a search API). Surfaces ReAct's actual failure modes directly: the model hallucinating a tool that doesn't exist, malformed action syntax, infinite think-loops with no termination. Directly operationalizes Paper 2, and is the natural place to reuse the FastAPI reading — wrap it as a small FastAPI service. Full spec: [react-agent-spec.md](react-agent-spec.md).
@@ -39,7 +39,7 @@ The `fastapi-reading` project already has an explainer for how `fastapi_mcp` wor
 
 ## Option 1, Detailed Plan — Nano-Transformer From Scratch
 
-Chosen as the starting point. Still a plan — not started. Full technical spec (shapes, code skeletons, trade-offs, debugging checkpoints) is written up separately in [nano-transformer-spec.md](nano-transformer-spec.md) for self-implementation.
+Suggested as the starting point. This is the one build with no AI-written spec — the milestone list below is the only scaffold, and you fill in shapes and code yourself (lean on [references.md](references.md) — nn-zero-to-hero lecture 7 covers exactly this).
 
 ### What you'll gain
 
@@ -72,11 +72,9 @@ Chosen as the starting point. Still a plan — not started. Full technical spec 
 
 ## Recommendation
 
-Start with **1 → 2**, in that order — nano-Transformer first (self-contained, directly rewards the Attention reading), then the hand-rolled ReAct agent (rewards Paper 2, sets up for option 4 later). Treat 3 and 4 as follow-ons once those land, not day-one scope.
+A reasonable order is **1 → 2** — nano-Transformer first (self-contained, directly rewards the Attention reading), then the hand-rolled ReAct agent (rewards Paper 2, sets up for option 4 later), with 3 and 4 as follow-ons. But per the project's operating principle, this is a suggestion, not a route — pick whatever you actually want to build.
 
-## Open question for when this gets picked up
-
-Whether to scaffold a dedicated project (`1-Projects/llm-agents-build/`, same tracker/protocol pattern as the reading projects, but for build milestones instead of reading items) or just start on option 1 directly without the wiki overhead.
+The open question this file used to end on — *scaffold a dedicated project or not* — is resolved: the project was scaffolded on 2026-09-09 as `1-Projects/build-ai/`.
 
 ---
 
@@ -85,5 +83,5 @@ Whether to scaffold a dedicated project (`1-Projects/llm-agents-build/`, same tr
 | Date | Change | Author |
 |------|--------|--------|
 | 2026-09-05 | Plan written, not yet started | Ayush Sood |
-| 2026-09-05 | Added detailed milestone plan for option 1, and a separate full technical spec (nano-transformer-spec.md) for self-implementation | Ayush Sood |
-| 2026-09-05 | Added full technical specs for options 2-4: react-agent-spec.md, toolformer-lite-spec.md, react-mcp-server-spec.md | Ayush Sood |
+| 2026-09-05 | Added detailed milestone plan for option 1, and full technical specs for options 2-4 | Ayush Sood |
+| 2026-09-09 | Moved into new `build-ai` project; superseded as scaffold by `_overview.md`; removed dangling reference to a nano-transformer-spec that was never committed | Ayush Sood |
